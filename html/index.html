@@ -7,6 +7,7 @@
 	</head>
 <header></header>
 <body>
+<script src="testAJAX.js"></script></script>
 <form action="#" method="get" target="_blank">
   Say: <input type="text" name="text"><br>
   To : <input type="text" name="receiver"><br>
@@ -21,6 +22,12 @@
   To : <input type="text" name="receiver"><br>
   <input type="submit" value="Send my greetings as POST request">
 </form>
+<br/>
+<br/>
+<br/>
+<div id="demo"><h2>Let AJAX change this text</h2></div>
 
+<button type="button" onclick="sendGet()">Send GET</button>
+<button type="button" onclick="sendPost()">Send POST</button>
 </body>	
 </html>
