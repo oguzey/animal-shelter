@@ -1,7 +1,9 @@
 FROM nginx:1.10
 
+RUN apt-get update && apt-get install -y wget lsof
+
 COPY html /usr/share/nginx/html
-COPY load-balancer.conf /etc/nginx/conf.d/
+COPY nginx.conf /etc/nginx/sites-enabled/default
 
 EXPOSE 80
 
