@@ -1,9 +1,9 @@
 FROM nginx:1.10
 
-RUN apt-get update && apt-get install -y wget lsof
+#RUN apt-get update && apt-get install -y wget lsof
 
 COPY html /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/sites-enabled/default
+COPY docker-nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
