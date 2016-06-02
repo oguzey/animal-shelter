@@ -12,4 +12,10 @@ docker stop http-server2
 docker rm http-server2
 docker rmi mono-http-server:1.0
 
+
+docker stop hazelcast-cluster
+docker stop cassandra-cluster
+docker rm hazelcast-cluster
+docker rm cassandra-cluster
+
 docker network rm my-network
