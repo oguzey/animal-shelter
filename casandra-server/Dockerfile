@@ -1,5 +1,5 @@
 FROM cassandra:latest
 
-RUN mdir /scripts
-COPY `
+RUN mkdir /scripts
+COPY ./scripts /scripts
 

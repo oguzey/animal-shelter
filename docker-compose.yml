@@ -1,0 +1,65 @@
+version: '2'
+services:
+  cassandra-server:
+    build: ./casandra-server
+    networks:
+      my-net:
+        ipv4_address: 172.18.0.40
+
+  hazelcast-server:
+    image: hazelcast/hazelcast:3.6.3
+    networks:
+      my-net:
+        ipv4_address: 172.18.0.30
+
+  main-server0:
+    build: ./main-server
+    networks:
+      my-net:
+        ipv4_address: 172.18.0.20
+    depends_on:
+    - cassandra-server
+    - hazelcast-server
+    extra_hosts:
+    - "myhost:172.18.0.20"
+    - "myproject:172.18.0.20"
+    - "hazelcasthost:172.18.0.30"
+    - "cassandrahost:172.18.0.40"
+
+  main-server1:
+    build: ./main-server
+    networks:
+      my-net:
+        ipv4_address: 172.18.0.21
+    depends_on:
+    - cassandra-server
+    - hazelcast-server
+    extra_hosts:
+    - "myhost:172.18.0.21"
+    - "myproject:172.18.0.21"
+    - "hazelcasthost:172.18.0.30"
+    - "cassandrahost:172.18.0.40"
+
+  web-server:
+    build: ./web-server
+    ports:
+    - "80:80"
+    networks:
+      my-net:
+        ipv4_address: 172.18.0.10
+    extra_hosts:
+    - "myhost:172.18.0.10"
+    - "main-server0:172.18.0.20"
+    - "main-server1:172.18.0.21"
+    - "main-server2:172.18.0.22"
+    - "main-server3:172.18.0.23"
+    - "main-server4:172.18.0.24"
+
+networks:
+  my-net:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+      - subnet: 172.18.0.0/16
+        gateway: 172.18.0.1

@@ -1,0 +1,10 @@
+FROM nginx:1.10
+
+#RUN apt-get update && apt-get install -y wget lsof
+
+COPY ./web-page /usr/share/nginx/html
+COPY ./web-server.conf /etc/nginx/conf.d/default.conf
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
