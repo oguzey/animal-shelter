@@ -1,16 +1,52 @@
 version: '2'
 services:
-  cassandra-server:
+  cassandra-server0:
     build: ./casandra-server
+    environment:
+      - CASSANDRA_SEEDS=172.18.0.40,172.18.0.41,172.18.0.42
+      - CASSANDRA_CLUSTER_NAME=pet_cluster
+      - CASSANDRA_RACK=pet_rack
     networks:
       my-net:
         ipv4_address: 172.18.0.40
 
-  hazelcast-server:
+  cassandra-server1:
+    build: ./casandra-server
+    environment:
+      - CASSANDRA_SEEDS=172.18.0.40,172.18.0.41,172.18.0.42
+      - CASSANDRA_CLUSTER_NAME=pet_cluster
+      - CASSANDRA_RACK=pet_rack
+    networks:
+      my-net:
+        ipv4_address: 172.18.0.41
+
+  cassandra-server2:
+    build: ./casandra-server
+    environment:
+      - CASSANDRA_SEEDS=172.18.0.40,172.18.0.41,172.18.0.42
+      - CASSANDRA_CLUSTER_NAME=pet_cluster
+      - CASSANDRA_RACK=pet_rack
+    networks:
+      my-net:
+        ipv4_address: 172.18.0.42
+
+  hazelcast-server0:
     image: hazelcast/hazelcast:3.6.3
     networks:
       my-net:
         ipv4_address: 172.18.0.30
+
+  hazelcast-server1:
+    image: hazelcast/hazelcast:3.6.3
+    networks:
+      my-net:
+        ipv4_address: 172.18.0.31
+
+  hazelcast-server2:
+    image: hazelcast/hazelcast:3.6.3
+    networks:
+      my-net:
+        ipv4_address: 172.18.0.32
 
   main-server0:
     build: ./main-server
@@ -18,13 +54,21 @@ services:
       my-net:
         ipv4_address: 172.18.0.20
     depends_on:
-    - cassandra-server
-    - hazelcast-server
+    - cassandra-server0
+    - cassandra-server1
+    - cassandra-server2
+    - hazelcast-server0
+    - hazelcast-server1
+    - hazelcast-server2
     extra_hosts:
     - "myhost:172.18.0.20"
     - "myproject:172.18.0.20"
-    - "hazelcasthost:172.18.0.30"
-    - "cassandrahost:172.18.0.40"
+    - "hazelcasthost0:172.18.0.30"
+    - "hazelcasthost1:172.18.0.31"
+    - "hazelcasthost2:172.18.0.32"
+    - "cassandrahost0:172.18.0.40"
+    - "cassandrahost1:172.18.0.41"
+    - "cassandrahost2:172.18.0.42"
 
   main-server1:
     build: ./main-server
@@ -32,13 +76,21 @@ services:
       my-net:
         ipv4_address: 172.18.0.21
     depends_on:
-    - cassandra-server
-    - hazelcast-server
+    - cassandra-server0
+    - cassandra-server1
+    - cassandra-server2
+    - hazelcast-server0
+    - hazelcast-server1
+    - hazelcast-server2
     extra_hosts:
     - "myhost:172.18.0.21"
     - "myproject:172.18.0.21"
-    - "hazelcasthost:172.18.0.30"
-    - "cassandrahost:172.18.0.40"
+    - "hazelcasthost0:172.18.0.30"
+    - "hazelcasthost1:172.18.0.31"
+    - "hazelcasthost2:172.18.0.32"
+    - "cassandrahost0:172.18.0.40"
+    - "cassandrahost1:172.18.0.41"
+    - "cassandrahost2:172.18.0.42"
 
   web-server:
     build: ./web-server
