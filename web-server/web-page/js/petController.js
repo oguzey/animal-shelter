@@ -2,11 +2,14 @@
  * Created by Alexander on 31.05.2016.
  */
 'use strict';
+
+var url_path = 'myhost';
+
 var app = angular.module('app', ['ui-notification', 'ngAnimate']);
-var ip_address = "myhost";
 app.controller('PetController', ['$scope', 'PetService', '$http', 'Notification', '$filter', function ($scope, PetService, $http, Notification, $filter) {
 
     $scope.list = [];
+
 
     var orderBy = $filter('orderBy');
 
@@ -15,10 +18,23 @@ app.controller('PetController', ['$scope', 'PetService', '$http', 'Notification'
     };
 
     var self = this;
-    $scope.info = [];
-    
 
     $scope.pets = [];
+
+
+    $scope.me = function () {
+        $.ajax({
+            url: url_path + '/me',
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                Notification.success({message: JSON.parse(data).Name + " " + JSON.parse(data).Email, delay: 3000});
+            },
+            data: sessionStorage.getItem('token'),
+            timeout: 10000
+        });
+    };
+
 
     $scope.takeAnimal = function () {
         var formData = {
@@ -28,41 +44,27 @@ app.controller('PetController', ['$scope', 'PetService', '$http', 'Notification'
             "address": $scope.address,
             "petId": $scope.petId
         };
-                if (formData.petId != null && formData.address != null && formData.name != null && formData.phone != null && formData.email != null) {
+        if (formData.petId != null && formData.address != null && formData.name != null && formData.phone != null && formData.email != null) {
 
-        $.ajax({
-              url: 'http://' + ip_address  + '/request',
-              type: 'post',
-              dataType: 'json',
-              success: function (data) {
-                Notification.success({message: 'Animal successfuly been take from shelter', delay: 1000});
-              },
-              data: JSON.stringify(formData)
-          });
-                }
-        
-
-    else {
-            Notification.error({message: 'Animal not added fill form!', delay: 1000});
+            $.ajax({
+                url: url_path + '/request',
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    sessionStorage.setItem('token', JSON.stringify(data));
+                    Notification.success({message: 'Animal successfuly been take from shelter', delay: 1000});
+                },
+                data: JSON.stringify(formData)
+            });
         }
-                        self.fetchAllPets();
+
+
+        else {
+            Notification.error({message: 'Animal not added fill the form!', delay: 1000});
+        }
+        self.fetchAllPets();
 
     };
-    
-    
-    $scope.getMe = function(){
-        alert('ok');
-        PetService.getMe().then(
-            function(d){
-                self.info = JSON.parse(d);
-                alert(self.info.Name + self.info.Address + self.info.Phone);
-            },
-            function(errResponse){
-                console.error('Error while fetching get me');
-            }
-        ); 
-    }
-    
 
 
     self.fetchAllPets = function () {
@@ -78,17 +80,14 @@ app.controller('PetController', ['$scope', 'PetService', '$http', 'Notification'
     };
 
 
-    
-
     self.fetchAllPets();
-
 
 }]);
 
 app.factory('PetService', ['$http', '$q', function ($http, $q) {
     return {
         fetchAllPets: function () {
-            return $http.get('http://' + ip_address + '/all')
+            return $http.get(url_path + '/all', {timeout: 7000})
                 .then(
                     function (response) {
                         return response.data;
@@ -99,22 +98,8 @@ app.factory('PetService', ['$http', '$q', function ($http, $q) {
                     }
                 );
         },
-        
-        getMe: function(){
-                        return $http.get('http://' + ip_address  + '/me')
-                        .then(
-                                function(response){
-                                return response.data;
-                                },
-                        
-                                function (errResponse) {
-                                console.error('Error while fetching getting me');
-                                return $q.reject(errResponse);
-                                }
-                        );
-                        }
-        
-        
+
+
     };
 }]);
 

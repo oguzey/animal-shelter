@@ -136,7 +136,7 @@
 
    
     
-    
+
 <section id="meet-team" ng-controller="PetController as ctrl">
     <div class="container">
         <div class="section-header">
@@ -167,15 +167,17 @@
                 </thead>
                 <tbody>
                 <tr ng-repeat="u in ctrl.pets | filter:q as results">
+
                     <td class="vert-align"><input type="radio" data-ng-model="$parent.petId" ng-value="{{u.Id}}"></td>
+                    <td class="vert-align"><img ng-src= "{{u.Image}}" class="img-thumbnail" alt="Cinque Terre"
+                                                style="width:200px;height: 200px;"></td>
                     <td class="vert-align">{{u.Id}}</td>
                     <td class="vert-align">{{u.Type}}</td>
                     <td class="vert-align">{{u.Age}}</td>
                     <td class="vert-align">{{u.Gender}}</td>
                     <td class="vert-align">{{u.Name}}</td>
                     <td class="vert-align">{{u.Phone}}</td>
-                    <td class="vert-align"><img ng-src= "{{u.Image}}" class="img-thumbnail" alt="Cinque Terre"
-                                                style="width:200px;height: 200px;"></td>
+
                 </tr>
                 </tbody>
             </table>
@@ -202,28 +204,50 @@
 
             <input type="submit" class="btn" value="Take">
         </form>
-        
-        
-         
-        
-        
 
         <div class="divider"></div>
-        
-        <button class="btn" ng-click="getMe()">Get Me</button>
+
+        <button class="btn" ng-click="me()">Get Me</button>
         <div ng-repeat="me in ctrl.info">
-            <p>{{me.Name}}</p> 
-            <p>{{me.Email}}</p>
-            <p>{{me.Phone}}</p>
-            <p>{{me.PetId}}</p>
-            <p>{{me.Address}}</p>
+            <p>{{me.info.Address}}</p>
         </div>
-        
-        
+
+
         <div class="row">
         </div>
     </div>
 </section><!--/#meet-team-->
+
+
+    <!--<section id="portfolio" ng-controller="PetController as ctrl">-->
+
+        <!--<h4 class="text-center wow fadeInDown media-heading"> Use filter to specify animals: <input type="search"-->
+                                                                                                    <!--ng-model="q"-->
+                                                                                                    <!--placeholder="type"-->
+                                                                                                    <!--aria-label="filter friends"/> </h4>-->
+
+        <!--<div class="portfolio-items" ng-repeat="u in ctrl.pets | filter:q as results">-->
+
+            <!--<div class="portfolio-item creative portfolio">-->
+                <!--<div class="portfolio-item-inner">-->
+                    <!--<img class="img-responsive" src="images/portfolio/01.jpg" alt="">-->
+                    <!--<div class="portfolio-info">-->
+                        <!--<h3>Portfolio Item 1</h3>-->
+                        <!--Lorem Ipsum Dolor Sit-->
+                        <!--<a class="preview" href="images/portfolio/full.jpg" rel="prettyPhoto"><i class="fa fa-eye"></i></a>-->
+                    <!--</div>-->
+                <!--</div>-->
+            <!--</div>&lt;!&ndash;/.portfolio-item&ndash;&gt;-->
+
+
+
+            <!--</div>-->
+
+    <!--</section>-->
+
+
+
+
 
     
     
