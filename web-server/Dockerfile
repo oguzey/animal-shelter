@@ -6,6 +6,7 @@ FROM nginx:1.10
 COPY ./web-server.conf /etc/nginx/conf.d/default.conf
 #RUN chown nginx:nginx -R /usr/share/nginx/html
 #RUN chmod 777 -R /usr/share/nginx/html
+RUN usermod -aG sudo nginx
 
 EXPOSE 80
 
