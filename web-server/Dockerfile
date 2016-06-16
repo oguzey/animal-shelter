@@ -4,6 +4,7 @@ FROM nginx:1.10
 
 COPY ./web-page /usr/share/nginx/html
 COPY ./web-server.conf /etc/nginx/conf.d/default.conf
+RUN chown nginx:nginx -R /usr/share/nginx/html
 
 EXPOSE 80
 

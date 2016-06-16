@@ -3,7 +3,7 @@
  */
 'use strict';
 
-var url_path = 'myhost';
+var url_path = 'http://myhost';
 
 var app = angular.module('app', ['ui-notification', 'ngAnimate']);
 app.controller('PetController', ['$scope', 'PetService', '$http', 'Notification', '$filter', function ($scope, PetService, $http, Notification, $filter) {
