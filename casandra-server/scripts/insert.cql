@@ -31,7 +31,7 @@ INSERT INTO nursery.animals (id, type, name, image, age, gender, phone, status)
 INSERT INTO nursery.animals (id, type, name, image, age, gender, phone, status)
   VALUES( uuid(), 'cat', 'Doctor_zlo', 'Doctor_zlo.jpg', 0.8, 'male', '1237224699', true);
 INSERT INTO nursery.animals (id, type, name, image, age, gender, phone, status)
-  VALUES( uuid()6, 'cat', 'Kotooblako', 'Kotooblako1.jpg', 1.8, 'male', '1237224699', true);
+  VALUES( uuid(), 'cat', 'Kotooblako', 'Kotooblako1.jpg', 1.8, 'male', '1237224699', true);
 INSERT INTO nursery.animals (id, type, name, image, age, gender, phone, status)
   VALUES( uuid(), 'cat', 'Sher', 'Sher.jpg', 0.8, 'female', '1237224699', true);
 INSERT INTO nursery.animals (id, type, name, image, age, gender, phone, status)

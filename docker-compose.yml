@@ -99,6 +99,8 @@ services:
     networks:
       my-net:
         ipv4_address: 172.18.0.10
+    volumes:
+    - ./web-server/web-page:/usr/share/nginx/html
     extra_hosts:
     - "myhost:172.18.0.10"
     - "main-server0:172.18.0.20"
