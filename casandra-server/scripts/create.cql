@@ -1,7 +1,7 @@
 CREATE KEYSPACE nursery
   WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 };
 CREATE TABLE nursery.animals (
-	id int PRIMARY KEY,
+	id uuid PRIMARY KEY,
 	type varchar,
  	name varchar,
  	image varchar,
@@ -18,3 +18,5 @@ CREATE TABLE nursery.orders (
  	phone varchar,
  	pet_id int
 );
+
+CREATE INDEX ON nursery.orders (email);

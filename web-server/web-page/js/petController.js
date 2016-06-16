@@ -3,13 +3,14 @@
  */
 'use strict';
 
-var url_path = 'http://myhost';
+var path = 'http://myhost';
 
 var app = angular.module('app', ['ui-notification', 'ngAnimate']);
 app.controller('PetController', ['$scope', 'PetService', '$http', 'Notification', '$filter', function ($scope, PetService, $http, Notification, $filter) {
 
     $scope.list = [];
 
+    $scope.history = [];
 
     var orderBy = $filter('orderBy');
 
@@ -24,15 +25,48 @@ app.controller('PetController', ['$scope', 'PetService', '$http', 'Notification'
 
     $scope.me = function () {
         $.ajax({
-            url: url_path + '/me',
+            url: path + '/me',
             type: 'post',
             dataType: 'json',
             success: function (data) {
-                Notification.success({message: JSON.parse(data).Name + " " + JSON.parse(data).Email, delay: 3000});
+                //Notification.success({message: JSON.parse(data).Name + " " + JSON.parse(data).Email , delay: 3000});
+
+                Notification.success({message: "Order History", delay: 3000});
+                for (var i = 0; i < data.length; i++) {
+                    Notification.success({
+                        message: JSON.parse(data[i]).Name + " " + JSON.parse(data[i]).Gender,
+                        delay: 3000
+                    });
+                }
             },
             data: sessionStorage.getItem('token'),
             timeout: 10000
         });
+    };
+
+
+    $scope.addAnimal = function () {
+        var formData = {
+            "name": $scope.name,
+            "type": $scope.type,
+            "age": $scope.age,
+            "gender": $scope.gender,
+            "img": $scope.img
+        };
+        if (formData.name != null && formData.type != null && formData.age != null && formData.gender != null && formData.img != null) {
+            $.ajax({
+                url: path + '/add',
+                type: 'post',
+                dataType: 'json',
+                success: function (data) {
+                    Notification.success({message: 'Animal successfuly added', delay: 1000});
+                },
+                data: JSON.stringify(formData)
+            });
+        }
+        else {
+            Notification.error({message: 'Animal not added fill the form!', delay: 1000});
+        }
     };
 
 
@@ -47,7 +81,7 @@ app.controller('PetController', ['$scope', 'PetService', '$http', 'Notification'
         if (formData.petId != null && formData.address != null && formData.name != null && formData.phone != null && formData.email != null) {
 
             $.ajax({
-                url: url_path + '/request',
+                url: path + '/request',
                 type: 'post',
                 dataType: 'json',
                 success: function (data) {
@@ -87,7 +121,7 @@ app.controller('PetController', ['$scope', 'PetService', '$http', 'Notification'
 app.factory('PetService', ['$http', '$q', function ($http, $q) {
     return {
         fetchAllPets: function () {
-            return $http.get(url_path + '/all', {timeout: 7000})
+            return $http.get(path + '/all', {timeout: 7000})
                 .then(
                     function (response) {
                         return response.data;
