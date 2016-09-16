@@ -1,0 +1,1 @@
+select * from shelter.animals where status = true;
